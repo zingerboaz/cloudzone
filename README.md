@@ -1,27 +1,32 @@
-# MyClient
+## Introduction
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
+This project was built in the framework of practicing CI\CD processes and deploying applications in containers.
+The build process is done using:
+code commit, code pipeline and code build.
+The infrastructure creation process is done using Terraform.
+The process of deploying and managing the containers is done using ECS.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Build Process
 
-## Code scaffolding
+The build process start from the dockerfile that creates image that have all the dependencies that our application needs for running independently in the container at every environment.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Every new commit in the project that we are uploading to the git-commit is a trigger that run codepipeline that makes the code-build to create new image (by the dockerfile) from the latest version and push the image to ECR.
 
-## Build
+## Infrastructure Creation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Terraform is an infrastructure as code (IaC) tool that allows you to build, change, and version infrastructure safely and efficiently. 
 
-## Running unit tests
+Using Terraform we built all application Infrastructure, for example: VPC, Subnet, routetable, ECS cluster and service and loadBalancer.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Application Deploy 
 
-## Running end-to-end tests
+The application deploy is done using ECS that is a management and deployment tool of containers.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+In our project we use ECS target that is a serverless service (there is no use to define instancess, only RAM and CPU).
 
-## Further help
+The deployment done using image that is inside the ECR (the image is pushed by codebuild).
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+ECS is responsible for the health and wellness of the containers. It also responsible of Zero Down Time of the application, that when we are make changes in the application or scaling one of application component the clients are moved to another available instance.
+
+In our project the application is deployed to 3 available containers.
