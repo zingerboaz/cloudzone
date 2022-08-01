@@ -7,19 +7,19 @@ The infrastructure creation process is done using Terraform.
 The process of deploying and managing the containers is done using ECS.
 
 
-## Build Process
+## Build Process by Codepipeline
 
 The build process start from the dockerfile that creates image that have all the dependencies that our application needs for running independently in the container at every environment.
 
-Every new commit in the project that we are uploading to the git-commit is a trigger that run codepipeline that makes the code-build to create new image (by the dockerfile) from the latest version and push the image to ECR.
+Every new commit in the project that we are uploading to the git-commit is a trigger that run codepipeline that makes the code-build to create new image (by the buildspece.yml ) from the latest version and push the image to ECR.
 
-## Infrastructure Creation
+## Infrastructure Creation by Terraform
 
 Terraform is an infrastructure as code (IaC) tool that allows you to build, change, and version infrastructure safely and efficiently. 
 
 Using Terraform we built all application Infrastructure, for example: VPC, Subnet, routetable, ECS cluster and service and loadBalancer.
 
-## Application Deploy 
+## Application Deploy by ECS target
 
 The application deploy is done using ECS that is a management and deployment tool of containers.
 
